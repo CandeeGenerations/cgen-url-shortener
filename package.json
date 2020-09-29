@@ -7,12 +7,13 @@
   "license": "UNLICENSED",
   "scripts": {
     "bootstrap": "yarn install && lerna bootstrap",
-    "build": "build:client && cd server && nest build",
-    "build:client": "cd server/client && yarn build",
+    "build": "bash ./build.sh",
+    "build:client": "cd client && yarn build",
     "start": "cd server && yarn start"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2"
   }
 }
