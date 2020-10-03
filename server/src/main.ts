@@ -2,7 +2,9 @@ import * as dotenv from 'dotenv'
 import {NestFactory} from '@nestjs/core'
 import {NestExpressApplication} from '@nestjs/platform-express'
 
-import {AppModule} from './modules/app/app.module'
+import {ILogger} from './logging'
+import {AppModule} from './app.module'
+import {NEST_LOGGER_NAME} from './logging/constants'
 
 dotenv.config()
 
@@ -10,9 +12,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   })
-  app.setGlobalPrefix('api')
+  const log = app.get<ILogger>('ILogger')
+  const port = app.get('ConfigService').get('PORT')
 
-  await app.listen(3001)
-  console.log(`Application is running on: ${await app.getUrl()}`)
+  app.useLogger(app.get(NEST_LOGGER_NAME))
+
+  log.info(`Listening on PORT: ${port}`)
+
+  await app.listen(port)
 }
 bootstrap()
