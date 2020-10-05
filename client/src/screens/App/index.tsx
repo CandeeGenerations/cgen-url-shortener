@@ -54,28 +54,19 @@ const App = () => {
         </Header>
 
         <Content style={{padding: '0 50px'}}>
-          <div
-            style={{
-              margin: '16px 0',
-              background: '#fff',
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
-            <Switch>
-              <Route path="/new">
-                <NewShortCode />
-              </Route>
+          <Switch>
+            <Route path="/new">
+              <NewShortCode />
+            </Route>
 
-              <Route path="/codes">
-                <ShortCodes />
-              </Route>
+            <Route path="/codes">
+              <ShortCodes />
+            </Route>
 
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </div>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
         </Content>
 
         <Footer style={{textAlign: 'center'}}>

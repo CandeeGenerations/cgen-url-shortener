@@ -1,6 +1,9 @@
-export interface ShortUrl {
+export interface ShortUrlInput {
   fullUrl: string
   shortCode?: string
+}
+
+export interface ShortUrl extends ShortUrlInput {
   addedTs: string
 }
 
@@ -20,4 +23,10 @@ export interface ShortUrlModel extends ShortUrl {
 export interface ClickModel extends Click {
   _id: string
   _ts: string
+}
+
+export interface ErrorModel {
+  error: string
+  message: string
+  statusCode: number
 }

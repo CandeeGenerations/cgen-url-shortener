@@ -9,9 +9,9 @@ import {
   Put,
 } from '@nestjs/common'
 
-import {ShortUrlModel} from 'src/models/models'
 import {ShortUrl} from 'src/models/graphql.schema'
 import {ShortUrlService} from '../services/shortUrl.service'
+import {ShortUrlInput, ShortUrlModel} from 'src/models/models'
 import {ClickService} from 'src/modules/click/services/click.service'
 
 @Controller('api/short')
@@ -52,7 +52,7 @@ export class ShortUrlController {
   }
 
   @Post()
-  createShortUrl(@Body() input: ShortUrl): Promise<ShortUrlModel> {
+  createShortUrl(@Body() input: ShortUrlInput): Promise<ShortUrlModel> {
     return this.shortUrlService.createShortUrl(input)
   }
 

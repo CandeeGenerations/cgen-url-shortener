@@ -1,7 +1,16 @@
 import React from 'react'
 
+import Title from '../../components/Title'
+import Container from '../../components/Container'
+
 const ShortCodes = () => {
-  return <div>short codes</div>
+  return (
+    <Container>
+      <Title>Short Codes</Title>
+
+      <p>Coming soon</p>
+    </Container>
+  )
 }
 
 export default ShortCodes

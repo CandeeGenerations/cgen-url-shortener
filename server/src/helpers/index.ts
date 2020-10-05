@@ -1,4 +1,4 @@
-export const makeId = (length = 8) => {
+export const makeId = (length = 5) => {
   let result = ''
   const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'

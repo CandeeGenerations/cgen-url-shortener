@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import Typography from 'antd/es/typography'
 
 import {Parameters} from '.'
-
-const {Title} = Typography
+import Title from '../../components/Title'
 
 export interface ErrorProps {
   parameters: Parameters
@@ -26,8 +24,6 @@ const Error = (props: ErrorProps) => {
   return (
     <div>
       <Title>Error: {errorType}</Title>
-
-      <hr />
 
       {errorType === 'Not Found' ? (
         <div>

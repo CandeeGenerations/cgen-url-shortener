@@ -1,5 +1,10 @@
 import {Click, ShortUrl} from './graphql.schema'
 
+export interface ShortUrlInput {
+  fullUrl: string
+  shortCode?: string
+}
+
 export interface ShortUrlModel extends ShortUrl {
   _id: string
   _ts: string

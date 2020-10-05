@@ -1,19 +1,38 @@
-import axios, {AxiosRequestConfig} from 'axios'
-import {Click, ClickModel, ShortUrl, ShortUrlModel} from '../models/models'
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
+import {
+  Click,
+  ClickModel,
+  ErrorModel,
+  ShortUrl,
+  ShortUrlInput,
+  ShortUrlModel,
+} from '../models/models'
 
 const getAuthToken = (): string | null => localStorage.getItem('x-cgen-auth')
 
 const get = async <T>({url, ...config}: AxiosRequestConfig) =>
-  await axios.get<T>(`${process.env.REACT_APP_API_URL}/${url}`, {
+  axios.get<T>(`${process.env.REACT_APP_API_URL}/${url}`, {
     headers: {'x-cgen-auth': getAuthToken()},
     ...config,
   })
 
 const post = async <T>({url, data, ...config}: AxiosRequestConfig) =>
-  await axios.post<T>(`${process.env.REACT_APP_API_URL}/${url}`, data, {
-    headers: {'x-cgen-auth': getAuthToken()},
-    ...config,
-  })
+  await axios
+    .post<T>(`${process.env.REACT_APP_API_URL}/${url}`, data, {
+      headers: {'x-cgen-auth': getAuthToken()},
+      ...config,
+    })
+    .catch(error => {
+      if (error.response) {
+        return error.response.data as ErrorModel
+      } else {
+        return {
+          error: 'Error',
+          message: error.message,
+          statusCode: 400,
+        } as ErrorModel
+      }
+    })
 
 const put = async <T>({url, data, ...config}: AxiosRequestConfig) =>
   await axios.put<T>(`${process.env.REACT_APP_API_URL}/${url}`, data, {
@@ -36,11 +55,16 @@ export const findShortUrl = async (
 }
 
 export const createShortUrl = async (
-  input: ShortUrl,
+  input: ShortUrlInput,
 ): Promise<ShortUrlModel> => {
   const response = await post<ShortUrlModel>({url: 'short', data: {...input}})
+  const error = response as ErrorModel
 
-  return response.data
+  if (error && error.statusCode === 400) {
+    throw new Error(error.message)
+  }
+
+  return (response as AxiosResponse<ShortUrlModel>).data
 }
 
 export const updateShortUrl = async (
@@ -71,6 +95,11 @@ export const findAllClicksByShortUrl = async (
 
 export const createClick = async (input: Click): Promise<ClickModel> => {
   const response = await post<ClickModel>({url: 'click', data: {...input}})
+  const error = response as ErrorModel
 
-  return response.data
+  if (error && error.statusCode === 400) {
+    throw new Error(error.message)
+  }
+
+  return (response as AxiosResponse<ClickModel>).data
 }

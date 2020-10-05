@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs'
 import {GraphQLClient} from 'graphql-request'
 import {BadRequestException, Injectable} from '@nestjs/common'
 
@@ -14,6 +15,7 @@ import {
   CreateShortUrlModel,
   FindAllShortUrlsModel,
   FindShortUrlModel,
+  ShortUrlInput,
   ShortUrlModel,
   UpdateShortUrlModel,
 } from 'src/models/models'
@@ -43,7 +45,7 @@ export class ShortUrlService {
     return response.findShortUrl
   }
 
-  async createShortUrl(input: ShortUrl): Promise<ShortUrlModel> {
+  async createShortUrl(input: ShortUrlInput): Promise<ShortUrlModel> {
     if (input.shortCode) {
       const valid = await this.validateShortCode(input.shortCode)
 
@@ -67,7 +69,14 @@ export class ShortUrlService {
 
     const response = await this.gqlClient.request<CreateShortUrlModel>(
       CREATE_SHORT_URL,
-      {input},
+      {
+        input: {
+          ...input,
+          addedTs: dayjs()
+            .valueOf()
+            .toString(),
+        },
+      },
     )
 
     return response.createShortUrl
