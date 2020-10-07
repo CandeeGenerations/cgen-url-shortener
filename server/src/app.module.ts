@@ -9,7 +9,6 @@ import {AuthModule} from './modules/auth/auth.module'
 import {AuthMiddleware} from './auth/auth.middleware'
 import {enableDebugLogging} from './logging/constants'
 import {ClickModule} from './modules/click/click.module'
-import {AppController} from './controllers/app.controller'
 import {AuthService} from './modules/auth/services/auth.service'
 import {ShortUrlModule} from './modules/shortUrl/shortUrl.module'
 import {ClickService} from './modules/click/services/click.service'
@@ -29,7 +28,7 @@ const morganLogStream = {
     ServeStaticModule.forRoot({
       rootPath:
         NODE_ENV === 'production'
-          ? join(__dirname, '..', 'client')
+          ? join(__dirname, 'client')
           : join(__dirname, '../..', 'client/build'),
       exclude: ['/api*'],
     }),
@@ -40,7 +39,6 @@ const morganLogStream = {
     ClickModule,
     AuthModule,
   ],
-  controllers: [AppController],
   providers: [ShortUrlService, ClickService, AuthService, ...logProviders],
 })
 export class AppModule {

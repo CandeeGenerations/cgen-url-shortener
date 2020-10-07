@@ -54,13 +54,13 @@ const NewShortCode = () => {
 
             <Paragraph
               copyable={{
-                text: `${process.env.REACT_APP_BASE_URL}/${shortUrl.shortCode}`,
+                text: `${process.env.REACT_APP_ROUTING_URL}/${shortUrl.shortCode}`,
               }}
               style={{fontSize: 18}}
             >
               <Text
                 code
-              >{`${process.env.REACT_APP_BASE_URL}/${shortUrl.shortCode}`}</Text>
+              >{`${process.env.REACT_APP_ROUTING_URL}/${shortUrl.shortCode}`}</Text>
             </Paragraph>
 
             <Link onClick={() => setShortUrl(null)}>

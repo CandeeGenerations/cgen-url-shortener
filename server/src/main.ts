@@ -13,7 +13,7 @@ async function bootstrap() {
     cors: true,
   })
   const log = app.get<ILogger>('ILogger')
-  const port = app.get('ConfigService').get('PORT')
+  const port = app.get('ConfigService').get('PORT') || 3001
 
   app.useLogger(app.get(NEST_LOGGER_NAME))
   app.set('trust proxy', true)
