@@ -1,3 +1,8 @@
+export interface ConfigModel {
+  routingUrl: string
+  gClientId: string
+}
+
 export interface ShortUrlInput {
   fullUrl: string
   shortCode?: string

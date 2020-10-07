@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import Alert from 'antd/es/alert'
 import GoogleLogin, {
   GoogleLoginResponse,
@@ -8,12 +8,14 @@ import GoogleLogin, {
 import Title from '../Title'
 import {authTokenKey} from '../../helpers'
 import {findOrCreateUser} from '../../api'
+import {ConfigContext} from '../../screens/App'
 
 export interface LoginProps {
   onLogIn: () => void
 }
 
 const Login = (props: LoginProps) => {
+  const configContext = useContext(ConfigContext)
   const [error, setError] = useState('')
 
   const responseGoogle = async (
@@ -48,7 +50,7 @@ const Login = (props: LoginProps) => {
 
       <div style={{textAlign: 'center'}}>
         <GoogleLogin
-          clientId={process.env.REACT_APP_G_CLIENT_ID as string}
+          clientId={configContext?.gClientId || ''}
           buttonText="Login with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}

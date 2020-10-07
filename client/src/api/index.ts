@@ -8,8 +8,10 @@ import {
   ShortUrlInput,
   ShortUrlModel,
   User,
+  ConfigModel,
 } from '../models/models'
 
+const apiUrl = process.env.REACT_APP_API_URL || '/api'
 const getAuthToken = (): string | null => localStorage.getItem('x-cgen-auth')
 
 const handleCatch = (error: any) => {
@@ -26,7 +28,7 @@ const handleCatch = (error: any) => {
 
 const get = async <T>({url, ...config}: AxiosRequestConfig) =>
   axios
-    .get<T>(`${process.env.REACT_APP_API_URL}/${url}`, {
+    .get<T>(`${apiUrl}/${url}`, {
       headers: {'x-cgen-auth': getAuthToken()},
       ...config,
     })
@@ -34,7 +36,7 @@ const get = async <T>({url, ...config}: AxiosRequestConfig) =>
 
 const post = async <T>({url, data, ...config}: AxiosRequestConfig) =>
   await axios
-    .post<T>(`${process.env.REACT_APP_API_URL}/${url}`, data, {
+    .post<T>(`${apiUrl}/${url}`, data, {
       headers: {'x-cgen-auth': getAuthToken()},
       ...config,
     })
@@ -42,7 +44,7 @@ const post = async <T>({url, data, ...config}: AxiosRequestConfig) =>
 
 const put = async <T>({url, data, ...config}: AxiosRequestConfig) =>
   await axios
-    .put<T>(`${process.env.REACT_APP_API_URL}/${url}`, data, {
+    .put<T>(`${apiUrl}/${url}`, data, {
       headers: {'x-cgen-auth': getAuthToken()},
       ...config,
     })
@@ -56,6 +58,12 @@ const handleErrors = <T>(response: ErrorModel | AxiosResponse<T>) => {
   }
 
   return (response as AxiosResponse<T>).data
+}
+
+export const getConfig = async (): Promise<ConfigModel> => {
+  const response = await get<ConfigModel>({url: 'config'})
+
+  return handleErrors(response)
 }
 
 export const findAllShortUrls = async (): Promise<ShortUrlModel[]> => {

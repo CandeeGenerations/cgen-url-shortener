@@ -14,7 +14,11 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly authService: AuthService) {}
 
   async use(req: Req, res: Response, next: () => void): Promise<void> {
-    if (!req.baseUrl.includes('api') || req.baseUrl.includes('auth')) {
+    if (
+      !req.baseUrl.includes('api') ||
+      req.baseUrl.includes('auth') ||
+      req.baseUrl.includes('config')
+    ) {
       next()
       return
     }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import Form from 'antd/es/form'
 import Alert from 'antd/es/alert'
 import Input from 'antd/es/input'
@@ -7,6 +7,7 @@ import Text from 'antd/es/typography/Text'
 import Link from 'antd/es/typography/Link'
 import Paragraph from 'antd/es/typography/Paragraph'
 
+import {ConfigContext} from '../App'
 import {createShortUrl} from '../../api'
 import Title from '../../components/Title'
 import Container from '../../components/Container'
@@ -15,9 +16,12 @@ import {ShortUrlInput, ShortUrlModel} from '../../models/models'
 const emailRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/
 
 const NewShortCode = () => {
+  const configContext = useContext(ConfigContext)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [shortUrl, setShortUrl] = useState<ShortUrlModel | null>(null)
+
+  const routingUrl = configContext?.routingUrl || ''
 
   const onFinish = async (values: ShortUrlInput) => {
     setLoading(true)
@@ -54,13 +58,11 @@ const NewShortCode = () => {
 
             <Paragraph
               copyable={{
-                text: `${process.env.REACT_APP_ROUTING_URL}/${shortUrl.shortCode}`,
+                text: `${routingUrl}/${shortUrl.shortCode}`,
               }}
               style={{fontSize: 18}}
             >
-              <Text
-                code
-              >{`${process.env.REACT_APP_ROUTING_URL}/${shortUrl.shortCode}`}</Text>
+              <Text code>{`${routingUrl}/${shortUrl.shortCode}`}</Text>
             </Paragraph>
 
             <Link onClick={() => setShortUrl(null)}>

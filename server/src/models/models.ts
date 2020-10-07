@@ -1,5 +1,10 @@
 import {Click, ShortUrl, User} from './graphql.schema'
 
+export interface ConfigModel {
+  routingUrl: string
+  gClientId: string
+}
+
 export interface ShortUrlInput {
   fullUrl: string
   shortCode?: string
