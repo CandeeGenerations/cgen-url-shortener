@@ -1,4 +1,4 @@
-import {Click, ShortUrl} from './graphql.schema'
+import {Click, ShortUrl, User} from './graphql.schema'
 
 export interface ShortUrlInput {
   fullUrl: string
@@ -11,6 +11,11 @@ export interface ShortUrlModel extends ShortUrl {
 }
 
 export interface ClickModel extends Click {
+  _id: string
+  _ts: string
+}
+
+export interface UserModel extends User {
   _id: string
   _ts: string
 }
@@ -47,4 +52,16 @@ export interface FindAllClicksByShortUrlModel {
 
 export interface CreateClickModel {
   createClick: ClickModel
+}
+
+export interface CreateUserModel {
+  createUser: UserModel
+}
+
+export interface FindUserByGoogleIdModel {
+  findUserByGoogleId: UserModel
+}
+
+export interface FindAuthorizedUserModel {
+  findAuthorizedUser: UserModel
 }

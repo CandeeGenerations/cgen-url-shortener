@@ -20,6 +20,14 @@ export class Click {
     browser?: string;
 }
 
+export class User {
+    googleId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    authorized: boolean;
+}
+
 export abstract class IQuery {
     abstract findAllShortUrls(): ShortUrl[] | Promise<ShortUrl[]>;
 
@@ -28,4 +36,6 @@ export abstract class IQuery {
     abstract findAllClicks(): Click[] | Promise<Click[]>;
 
     abstract findAllClicksByShortUrl(urlId: string): Click[] | Promise<Click[]>;
+
+    abstract findUserByGoogleId(googleId: string): User | Promise<User>;
 }

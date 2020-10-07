@@ -30,3 +30,10 @@ export interface ErrorModel {
   message: string
   statusCode: number
 }
+
+export interface User {
+  googleId: string
+  email: string
+  firstName: string
+  lastName: string
+}

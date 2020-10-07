@@ -95,3 +95,45 @@ export const CREATE_CLICK = gql`
     }
   }
 `
+
+export const CREATE_USER = gql`
+  mutation CreateUser($input: UserInput!) {
+    createUser(data: $input) {
+      _id
+      _ts
+      email
+      firstName
+      lastName
+      googleId
+      authorized
+    }
+  }
+`
+
+export const FIND_USER_BY_GOOGLE_ID = gql`
+  query FindUserByGoogleId($googleId: String!) {
+    findUserByGoogleId(googleId: $googleId) {
+      _id
+      _ts
+      email
+      firstName
+      lastName
+      googleId
+      authorized
+    }
+  }
+`
+
+export const FIND_AUTHORIZED_USER = gql`
+  query FindAuthorizedUser($googleId: String!) {
+    findAuthorizedUser(googleId: $googleId, authorized: true) {
+      _id
+      _ts
+      email
+      firstName
+      lastName
+      googleId
+      authorized
+    }
+  }
+`
