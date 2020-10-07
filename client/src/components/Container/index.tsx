@@ -1,6 +1,6 @@
 import React from 'react'
 import Row from 'antd/es/row'
-import Col from 'antd/es/col'
+import Col, {ColProps} from 'antd/es/col'
 
 export interface ContainerProps {
   span?: number
@@ -8,9 +8,14 @@ export interface ContainerProps {
 }
 
 const Container = (props: ContainerProps) => {
-  const width = props.span || 10
+  const width = props.span || 12
   const offset = (24 - width) / 2
-  const colProps = {span: width, offset}
+  const colProps: ColProps = {
+    lg: {span: width, offset},
+    md: 24,
+    sm: 24,
+    xs: 24,
+  }
 
   return (
     <Row>

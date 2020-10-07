@@ -16,8 +16,11 @@ export class Click {
     urlId: string;
     clickedTs: string;
     ipAddress?: string;
-    location?: string;
-    browser?: string;
+    language?: string;
+    userAgent?: string;
+    country?: string;
+    region?: string;
+    city?: string;
 }
 
 export class User {
@@ -38,4 +41,6 @@ export abstract class IQuery {
     abstract findAllClicksByShortUrl(urlId: string): Click[] | Promise<Click[]>;
 
     abstract findUserByGoogleId(googleId: string): User | Promise<User>;
+
+    abstract findAuthorizedUser(googleId: string, authorized: boolean): User | Promise<User>;
 }

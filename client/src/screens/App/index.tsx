@@ -1,17 +1,32 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Menu from 'antd/es/menu'
 import Layout from 'antd/es/layout'
-import {Switch, Route, Link, BrowserRouter} from 'react-router-dom'
+import ALink from 'antd/es/typography/Link'
+import {Switch, Route, Link, BrowserRouter, Redirect} from 'react-router-dom'
 
 import './app.css'
 
 import Home from '../Home'
 import ShortCodes from '../ShortCodes'
 import NewShortCode from '../NewShortCode'
+import {authTokenKey} from '../../helpers'
 
 const {Header, Content, Footer} = Layout
 
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => {
+    setLoggedIn(localStorage.getItem(authTokenKey) !== null)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onLogIn = () => setLoggedIn(true)
+
+  const onLogOut = () => {
+    localStorage.removeItem(authTokenKey)
+    setLoggedIn(false)
+  }
+
   // findAllShortUrls()
   // findShortUrl('tt28sep20')
   // findAllClicks()
@@ -36,36 +51,74 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Layout>
-        <Header>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Link to="/">Home</Link>
-            </Menu.Item>
+      <Layout style={{minWidth: 470}}>
+        {loggedIn && (
+          <Header>
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+              <Menu.Item key="1">
+                <Link to="/new">New Short Code</Link>
+              </Menu.Item>
 
-            <Menu.Item key="2">
-              <Link to="/new">New Short Code</Link>
-            </Menu.Item>
+              <Menu.Item key="2">
+                <Link to="/codes">Short Codes</Link>
+              </Menu.Item>
 
-            <Menu.Item key="3">
-              <Link to="/codes">Short Codes</Link>
-            </Menu.Item>
-          </Menu>
-        </Header>
+              <Menu.Item key="3" style={{float: 'right'}}>
+                <ALink onClick={onLogOut}>Log Out</ALink>
+              </Menu.Item>
+            </Menu>
+          </Header>
+        )}
 
-        <Content style={{padding: '0 50px'}}>
+        <Content style={{padding: loggedIn ? '0 50px' : '50px 50px 0'}}>
           <Switch>
-            <Route path="/new">
-              <NewShortCode />
-            </Route>
+            <Route
+              path="/codes"
+              render={({location}) =>
+                loggedIn ? (
+                  <ShortCodes />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: '/',
+                      state: {from: location},
+                    }}
+                  />
+                )
+              }
+            />
 
-            <Route path="/codes">
-              <ShortCodes />
-            </Route>
+            <Route
+              path="/new"
+              render={({location}) =>
+                loggedIn ? (
+                  <NewShortCode />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: '/',
+                      state: {from: location},
+                    }}
+                  />
+                )
+              }
+            />
 
-            <Route path="/">
-              <Home />
-            </Route>
+            <Route
+              path="/"
+              render={({location}) =>
+                !loggedIn ? (
+                  <Home onLogIn={onLogIn} />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: '/new',
+                      state: {from: location},
+                    }}
+                  />
+                )
+              }
+            />
           </Switch>
         </Content>
 

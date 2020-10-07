@@ -16,6 +16,7 @@ async function bootstrap() {
   const port = app.get('ConfigService').get('PORT')
 
   app.useLogger(app.get(NEST_LOGGER_NAME))
+  app.set('trust proxy', true)
 
   log.info(`Listening on PORT: ${port}`)
 

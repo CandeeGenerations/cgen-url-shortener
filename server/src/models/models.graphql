@@ -8,8 +8,11 @@ type Click {
   urlId: ID!
   clickedTs: String!
   ipAddress: String
-  location: String
-  browser: String
+  language: String
+  userAgent: String
+  country: String
+  region: String
+  city: String
 }
 
 type User {

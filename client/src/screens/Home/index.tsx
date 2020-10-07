@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 
 import Error from './Error'
+import Login from '../../components/Login'
 import Container from '../../components/Container'
 
 export interface Parameters {
@@ -9,9 +10,13 @@ export interface Parameters {
   c?: string
 }
 
-const Home = () => {
+export interface HomeProps {
+  onLogIn: () => void
+}
+
+const Home = (props: HomeProps) => {
+  const history = useHistory()
   const [parameters, setParameters] = useState<Parameters>({e: '', c: ''})
-  let history = useHistory()
 
   useEffect(() => {
     const search = history.location.search
@@ -27,12 +32,10 @@ const Home = () => {
     setParameters(params)
   }, [history.location.search])
 
-  if (!parameters.e && process.env.NODE_ENV !== 'development') {
-    window.location.href = `${process.env.REACT_APP_REDIRECT_URL}`
-
+  if (!parameters.e) {
     return (
       <Container>
-        <div>Loading...</div>
+        <Login onLogIn={props.onLogIn} />
       </Container>
     )
   }

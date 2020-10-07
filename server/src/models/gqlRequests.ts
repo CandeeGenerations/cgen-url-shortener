@@ -58,9 +58,12 @@ export const FIND_ALL_CLICKS = gql`
         _ts
         urlId
         clickedTs
-        location
-        browser
+        language
+        userAgent
         ipAddress
+        country
+        region
+        city
       }
     }
   }
@@ -74,9 +77,12 @@ export const FIND_ALL_CLICKS_BY_SHORT_URL = gql`
         _ts
         urlId
         clickedTs
-        location
-        browser
+        language
+        userAgent
         ipAddress
+        country
+        region
+        city
       }
     }
   }
@@ -89,9 +95,12 @@ export const CREATE_CLICK = gql`
       _ts
       urlId
       clickedTs
-      location
-      browser
+      language
+      userAgent
       ipAddress
+      country
+      region
+      city
     }
   }
 `
