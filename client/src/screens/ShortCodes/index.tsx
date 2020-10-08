@@ -1,12 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react'
-import dayjs from 'dayjs'
+
 import Table from 'antd/es/table'
 import Space from 'antd/es/space'
 import {Link} from 'react-router-dom'
 import Skeleton from 'antd/es/skeleton'
 import Text from 'antd/es/typography/Text'
+import Breadcrumb from 'antd/es/breadcrumb'
 
 import {ConfigContext} from '../App'
+import {formatDate} from '../../helpers'
 import Title from '../../components/Title'
 import {findAllShortUrls} from '../../api'
 import Container from '../../components/Container'
@@ -47,11 +49,7 @@ const ShortCodes = () => {
       title: 'Added Date',
       dataIndex: 'addedTs',
       key: 'addedTs',
-      render: (ts: string) => {
-        const date = dayjs(parseInt(ts))
-
-        return `${date.format('D MMM YYYY')} at ${date.format('HH:mm')}`
-      },
+      render: formatDate,
     },
     {
       title: 'Action',
@@ -73,18 +71,30 @@ const ShortCodes = () => {
 
   useEffect(() => {
     getShortUrls()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Container span={20}>
-      <Title>Short Codes</Title>
+    <>
+      <Container span={20} background={false}>
+        <Breadcrumb style={{margin: '16px 0'}}>
+          <Breadcrumb.Item>
+            <Link to="/new">Home</Link>
+          </Breadcrumb.Item>
 
-      {loading ? (
-        <Skeleton active />
-      ) : (
-        <Table dataSource={allShortUrls} columns={columns} />
-      )}
-    </Container>
+          <Breadcrumb.Item>Short URLs</Breadcrumb.Item>
+        </Breadcrumb>
+      </Container>
+
+      <Container span={20}>
+        <Title>Short URLs</Title>
+
+        {loading ? (
+          <Skeleton active />
+        ) : (
+          <Table dataSource={allShortUrls} columns={columns} />
+        )}
+      </Container>
+    </>
   )
 }
 

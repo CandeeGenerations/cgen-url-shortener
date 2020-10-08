@@ -3,11 +3,13 @@ import Row from 'antd/es/row'
 import Col, {ColProps} from 'antd/es/col'
 
 export interface ContainerProps {
+  background?: boolean
   span?: number
   children: React.ReactNode
 }
 
 const Container = (props: ContainerProps) => {
+  const background = props.background === undefined ? true : props.background
   const width = props.span || 12
   const offset = (24 - width) / 2
   const colProps: ColProps = {
@@ -20,16 +22,20 @@ const Container = (props: ContainerProps) => {
   return (
     <Row>
       <Col {...colProps}>
-        <div
-          style={{
-            padding: 48,
-            minHeight: 280,
-            margin: '16px 0',
-            background: '#fff',
-          }}
-        >
-          {props.children}
-        </div>
+        {background ? (
+          <div
+            style={{
+              padding: 48,
+              minHeight: 280,
+              margin: '16px 0',
+              background: '#fff',
+            }}
+          >
+            {props.children}
+          </div>
+        ) : (
+          props.children
+        )}
       </Col>
     </Row>
   )

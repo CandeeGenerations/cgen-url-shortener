@@ -80,6 +80,12 @@ export const findShortUrl = async (
   return handleErrors(response)
 }
 
+export const findShortUrlById = async (id: string): Promise<ShortUrlModel> => {
+  const response = await get<ShortUrlModel>({url: `short/id/${id}`})
+
+  return handleErrors(response)
+}
+
 export const createShortUrl = async (
   input: ShortUrlInput,
 ): Promise<ShortUrlModel> => {
@@ -108,8 +114,8 @@ export const findAllClicks = async (): Promise<ClickModel[]> => {
 
 export const findAllClicksByShortUrl = async (
   urlId: string,
-): Promise<Click[]> => {
-  const response = await get<Click[]>({url: `click/${urlId}`})
+): Promise<ClickModel[]> => {
+  const response = await get<ClickModel[]>({url: `click/${urlId}`})
 
   return handleErrors(response)
 }

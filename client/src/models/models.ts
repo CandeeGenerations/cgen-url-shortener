@@ -16,8 +16,11 @@ export interface Click {
   urlId: string
   clickedTs: string
   ipAddress?: string
-  location?: string
-  browser?: string
+  language?: string
+  userAgent?: string
+  country?: string
+  region?: string
+  city?: string
 }
 
 export interface ShortUrlModel extends ShortUrl {

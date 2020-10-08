@@ -14,6 +14,18 @@ export const FIND_ALL_SHORT_URLS = gql`
   }
 `
 
+export const FIND_SHORT_URL_BY_ID = gql`
+  query FindShortUrlById($id: ID!) {
+    findShortUrlByID(id: $id) {
+      _id
+      _ts
+      shortCode
+      fullUrl
+      addedTs
+    }
+  }
+`
+
 export const FIND_SHORT_URL = gql`
   query FindShortUrl($shortCode: String!) {
     findShortUrl(shortCode: $shortCode) {

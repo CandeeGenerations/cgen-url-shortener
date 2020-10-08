@@ -31,6 +31,11 @@ export class ShortUrlController {
     return this.shortUrlService.findShortUrl(shortCode)
   }
 
+  @Get('/id/:id')
+  findShortUrlById(@Param('id') id: string): Promise<ShortUrlModel> {
+    return this.shortUrlService.findShortUrlById(id)
+  }
+
   @Post(':shortCode')
   async getRedirectUrl(
     @Param('shortCode') shortCode: string,

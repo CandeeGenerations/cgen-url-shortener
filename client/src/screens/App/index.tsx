@@ -12,6 +12,7 @@ import NewShortCode from '../NewShortCode'
 import {authTokenKey} from '../../helpers'
 import {getConfig} from '../../api'
 import {ConfigModel} from '../../models/models'
+import ShortCode from '../ShortCodes/ShortCode'
 
 const {Header, Content, Footer} = Layout
 
@@ -41,8 +42,6 @@ const App = () => {
     setLoggedIn(false)
   }
 
-  // findAllClicksByShortUrl('278027294192173576')
-
   return loading ? (
     <div style={{padding: 10}}>Loading..</div>
   ) : (
@@ -70,6 +69,22 @@ const App = () => {
           <Content style={{padding: loggedIn ? '0 50px' : '50px 50px 0'}}>
             <Switch>
               <Route
+                path="/codes/:id"
+                render={({location}) =>
+                  loggedIn ? (
+                    <ShortCode />
+                  ) : (
+                    <Redirect
+                      to={{
+                        pathname: '/',
+                        state: {from: location},
+                      }}
+                    />
+                  )
+                }
+              />
+
+              <Route
                 path="/codes"
                 render={({location}) =>
                   loggedIn ? (
@@ -84,8 +99,6 @@ const App = () => {
                   )
                 }
               />
-
-              {/* <Route path= */}
 
               <Route
                 path="/new"

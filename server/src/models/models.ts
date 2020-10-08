@@ -35,6 +35,10 @@ export interface FindShortUrlModel {
   findShortUrl: ShortUrlModel
 }
 
+export interface FindShortUrlByIdModel {
+  findShortUrlByID: ShortUrlModel
+}
+
 export interface CreateShortUrlModel {
   createShortUrl: ShortUrlModel
 }

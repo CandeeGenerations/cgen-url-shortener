@@ -10,10 +10,12 @@ import {
   FIND_ALL_SHORT_URLS,
   FIND_SHORT_URL,
   UPDATE_SHORT_URL,
+  FIND_SHORT_URL_BY_ID,
 } from 'src/models/gqlRequests'
 import {
   CreateShortUrlModel,
   FindAllShortUrlsModel,
+  FindShortUrlByIdModel,
   FindShortUrlModel,
   ShortUrlInput,
   ShortUrlModel,
@@ -43,6 +45,15 @@ export class ShortUrlService {
     )
 
     return response.findShortUrl
+  }
+
+  async findShortUrlById(id: string): Promise<ShortUrlModel> {
+    const response = await this.gqlClient.request<FindShortUrlByIdModel>(
+      FIND_SHORT_URL_BY_ID,
+      {id},
+    )
+
+    return response.findShortUrlByID
   }
 
   async createShortUrl(input: ShortUrlInput): Promise<ShortUrlModel> {
