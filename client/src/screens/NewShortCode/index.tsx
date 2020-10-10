@@ -28,8 +28,8 @@ const NewShortCode = () => {
 
     try {
       const response = await createShortUrl({
-        fullUrl: values.fullUrl,
-        shortCode: values.shortCode,
+        fullUrl: values.fullUrl.trim(),
+        shortCode: values.shortCode?.trim(),
       })
 
       setShortUrl(response)
@@ -95,7 +95,7 @@ const NewShortCode = () => {
                 },
               ]}
             >
-              <Input />
+              <Input type="url" />
             </Form.Item>
 
             <Form.Item
