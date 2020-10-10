@@ -48,7 +48,7 @@ const columns = [
     title: 'Location',
     key: 'location',
     render: (text: string, data: ClickModel) =>
-      `${data.city || 'Unknown'}, ${data.country || 'Unknown'}, ${data.region ||
+      `${data.city || 'Unknown'}, ${data.region || 'Unknown'}, ${data.country ||
         'Unknown'}`,
   },
 ]
