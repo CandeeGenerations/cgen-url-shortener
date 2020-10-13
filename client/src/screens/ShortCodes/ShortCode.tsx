@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import Row from 'antd/es/row'
 import Col from 'antd/es/col'
 import Table from 'antd/es/table'
-import Popover from 'antd/es/popover'
+import Tooltip from 'antd/es/tooltip'
 import Skeleton from 'antd/es/skeleton'
 import Text from 'antd/es/typography/Text'
 import Breadcrumb from 'antd/es/breadcrumb'
@@ -35,14 +35,15 @@ const columns = [
   {
     title: 'Browser',
     key: 'browser',
-    render: (text: string, data: ClickModel) =>
-      data.userAgent?.length || 0 > 30 ? (
-        <Popover content={data.userAgent} title="Browser">
-          {data.userAgent?.slice(0, 30)}...
-        </Popover>
-      ) : (
-        `${data.userAgent}`
-      ),
+    dataIndex: 'userAgent',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (userAgent: string) => (
+      <Tooltip placement="topLeft" title={userAgent}>
+        {userAgent}
+      </Tooltip>
+    ),
   },
   {
     title: 'Location',
@@ -105,8 +106,8 @@ const ShortCode = () => {
         {loadingShortUrl || !shortUrl ? (
           <Skeleton active />
         ) : (
-          <Row>
-            <Col span={4}>
+          <Row gutter={[16, {md: 16, sm: 24, xs: 24}]}>
+            <Col md={4} sm={24} xs={24}>
               <strong>Short Code:</strong>
               <br />
               <Text
@@ -121,7 +122,7 @@ const ShortCode = () => {
               </Text>
             </Col>
 
-            <Col span={12}>
+            <Col md={12} sm={24} xs={24}>
               <strong>Full URL:</strong>
               <br />
               <Text code copyable>
@@ -129,7 +130,7 @@ const ShortCode = () => {
               </Text>
             </Col>
 
-            <Col span={8}>
+            <Col md={8} sm={24} xs={24}>
               <strong>Date Added:</strong>
               <br />
               {formatDate(shortUrl.addedTs)}

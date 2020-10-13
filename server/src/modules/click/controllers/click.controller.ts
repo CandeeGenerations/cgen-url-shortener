@@ -9,15 +9,19 @@ export class ClickController {
   constructor(private readonly clickService: ClickService) {}
 
   @Get()
-  findAllClicks(): Promise<[ClickModel]> {
-    return this.clickService.findAllClicks()
+  async findAllClicks(): Promise<ClickModel[]> {
+    const clicks = await this.clickService.findAllClicks()
+
+    return clicks.sort((a, b) => Number(b.clickedTs) - Number(a.clickedTs))
   }
 
   @Get(':urlId')
-  findAllClicksByShortUrl(
+  async findAllClicksByShortUrl(
     @Param('urlId') urlId: string,
-  ): Promise<[ClickModel]> {
-    return this.clickService.findAllClicksByShortUrl(urlId)
+  ): Promise<ClickModel[]> {
+    const clicks = await this.clickService.findAllClicksByShortUrl(urlId)
+
+    return clicks.sort((a, b) => Number(b.clickedTs) - Number(a.clickedTs))
   }
 
   @Post()

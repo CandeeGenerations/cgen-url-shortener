@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 
-import Table from 'antd/es/table'
 import Space from 'antd/es/space'
 import {Link} from 'react-router-dom'
 import Skeleton from 'antd/es/skeleton'
 import Text from 'antd/es/typography/Text'
 import Breadcrumb from 'antd/es/breadcrumb'
+import Table, {ColumnsType} from 'antd/es/table'
 
 import {ConfigContext} from '../App'
 import {formatDate} from '../../helpers'
@@ -19,7 +19,7 @@ const ShortCodes = () => {
   const [loading, setLoading] = useState(true)
   const [allShortUrls, setAllShortUrls] = useState<ShortUrlModel[]>([])
 
-  const columns = [
+  const columns: ColumnsType<ShortUrlModel> = [
     {
       title: 'Short Code',
       dataIndex: 'shortCode',
@@ -39,6 +39,7 @@ const ShortCodes = () => {
       title: 'Full URL',
       dataIndex: 'fullUrl',
       key: 'fullUrl',
+      responsive: ['xl'],
       render: (url: string) => (
         <Text code copyable>
           {url}
@@ -46,9 +47,17 @@ const ShortCodes = () => {
       ),
     },
     {
+      title: 'Clicks',
+      dataIndex: 'clicks',
+      key: 'clicks',
+      align: 'center',
+      render: (clicks?: number) => clicks || 0,
+    },
+    {
       title: 'Added Date',
       dataIndex: 'addedTs',
       key: 'addedTs',
+      responsive: ['xl'],
       render: formatDate,
     },
     {

@@ -13,6 +13,7 @@ export interface ShortUrlInput {
 export interface ShortUrlModel extends ShortUrl {
   _id: string
   _ts: string
+  clicks: number
 }
 
 export interface ClickModel extends Click {

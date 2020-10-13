@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common'
 
+import {asyncForEach} from 'src/helpers'
 import {ShortUrl} from 'src/models/graphql.schema'
 import {ShortUrlService} from '../services/shortUrl.service'
 import {ShortUrlInput, ShortUrlModel} from 'src/models/models'
@@ -22,8 +23,16 @@ export class ShortUrlController {
   ) {}
 
   @Get()
-  findAllShortUrls(): Promise<[ShortUrlModel]> {
-    return this.shortUrlService.findAllShortUrls()
+  async findAllShortUrls(): Promise<ShortUrlModel[]> {
+    const urls = await this.shortUrlService.findAllShortUrls()
+
+    await asyncForEach(urls, async url => {
+      const clicks = await this.clickService.findAllClicksByShortUrl(url._id)
+
+      url.clicks = clicks.length
+    })
+
+    return urls.sort((a, b) => Number(b.addedTs) - Number(a.addedTs))
   }
 
   @Get(':shortCode')
